@@ -16,3 +16,6 @@ $ make
 ```
 $ ./a.out
 ```
+
+## Referências:
+NAJIBGHADRI. Disponivel em: <https://github.com/najibghadri/Tetris200lines/tree/master>. Acesso em: 03/09/2024
