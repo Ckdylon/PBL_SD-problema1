@@ -6,24 +6,6 @@
 #include <string.h>
 #include "ADXL345.h"
 
-// ADXL345 Functions
-void ADXL345_Init();
-void ADXL345_Calibrate();
-bool ADXL345_IsDataReady();
-bool ADXL345_WasActivityUpdated();
-void ADXL345_XYZ_Read(int16_t szData16[3]);
-void ADXL345_IdRead(uint8_t *pId);
-void ADXL345_REG_READ(uint8_t address, uint8_t *value);
-void ADXL345_REG_WRITE(uint8_t address, uint8_t value);
-void ADXL345_REG_MULTI_READ(uint8_t address, uint8_t values[], uint8_t len);
-// I2C0 Functions
-void I2C0_Init();
-void I2C0_Enable_FPGA_Access();
-// Pinmux Functions
-void Pinmux_Config();
-
-
-
 int main(void){
     uint8_t devid;
     int16_t mg_per_lsb = 4;
@@ -185,6 +167,3 @@ void ADXL345_REG_MULTI_READ(uint8_t address, uint8_t values[], uint8_t len){
 }
 
 #endif
-                   
-                                                                                                                                                                                          1,1  
-
