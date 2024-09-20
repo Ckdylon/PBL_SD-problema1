@@ -1,24 +1,16 @@
-/*
-* Universidade Estadual de Feira de Santana
-* Departamento de Tecnologia
-*
-**/
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
 #include <ncurses.h>
+#include "tetris.h"
 
 #define LINHAS 20 
 #define COLUNAS 15
 #define TRUE 1
 #define FALSE 0
 
-typedef struct {
-    char **array;
-    int largura, linha, coluna;
-} Forma;
+
 
 Forma forma_atual;
 
@@ -39,17 +31,9 @@ suseconds_t temporizador = 400000; // é só diminuir esse valor pro jogo execut
 int decrementar = 1000;
 struct timeval before_now, now;
 
-Forma CopiarForma(Forma forma);
-void MovimentarForma(int direcao);
-void ExibirTabela();
-void RemoverLinhaEAtualizarPontuacao();
-void SobrescreverMatriz();
-void GerarNovaFormaAleatoriamente();
-int ChecarPosicao(Forma forma);
-void ApagarForma(Forma forma);
-int temQueAtualizar();
 
-int main() {
+
+void IniciarJogo() {
 	int direcao;
 
 	pontuacao = 0;
@@ -82,14 +66,12 @@ int main() {
 	}
 	printf("\nGame over!\n");
 	printf("\nPontuacao: %d\n", pontuacao);
-
-    return 0;
 }
 
 Forma CopiarForma(Forma forma){
 	Forma nova_forma = forma;
 	char **aux = forma.array;
-	nova_forma.array = (char**)malloc(nova_forma.largura*sizeof(char*));
+	nova_forma.array = (char**) malloc(nova_forma.largura*sizeof(char*));
     int i, j;
     for(i = 0; i < nova_forma.largura; i++){
 		nova_forma.array[i] = (char*) malloc(nova_forma.largura*sizeof(char));
