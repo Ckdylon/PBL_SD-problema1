@@ -8,13 +8,9 @@ Um clássico atemporal que cativa gerações de jogadores.
 $ sudo apt-get install libncurses5-dev libncursesw5-dev
 ```
 
-# Compilar game
+# Rodar o game
 ```
 $ make
-```
-# Executar game
-```
-$ ./a.out
 ```
 
 ## Referências:
