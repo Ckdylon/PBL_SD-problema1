@@ -1,10 +1,9 @@
 CC = gcc
-CFLAGS = -I./src/tetris -lncurses  
-SRC = main.c src/tetris/tetris.c  
-OBJ = main.o tetris.o
+CFLAGS = -I./src/tetris -I./src/acelerometro -lncurses  
+SRC = main.c src/tetris/tetris.c src/acelerometro/acelerometro.c  
+OBJ = main.o tetris.o acelerometro.o
 
 all: tetris
-	./tetris
 
 tetris: $(OBJ)
 	$(CC) -o tetris $(OBJ) $(CFLAGS)
@@ -14,6 +13,9 @@ main.o: main.c
 
 tetris.o: src/tetris/tetris.c
 	$(CC) -c src/tetris/tetris.c $(CFLAGS)
+
+acelerometro.o: src/acelerometro/acelerometro.c
+	$(CC) -c src/acelerometro/acelerometro.c $(CFLAGS)
 
 clean:
 	rm -f *.o tetris

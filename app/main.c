@@ -6,9 +6,9 @@
 
 #include <stdio.h>
 #include "./src/tetris/tetris.h"
-#include "./src/acelerometro/ADXL345.h"
-
+#include "./src/acelerometro/acelerometro.h"
 
 void main(){
+    IniciarAcelerometro();
     IniciarJogo();
 }
