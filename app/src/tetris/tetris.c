@@ -1,21 +1,28 @@
-
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-#include <ncurses.h>
 #include "tetris.h"
+#include <time.h>
+#include <stdio.h>
+#include "../../address_map_arm.h"
 
 #define LINHAS 20 
 #define COLUNAS 15
 #define TRUE 1
 #define FALSE 0
 
-
+#define video_WHITE 0xFFFF
 
 Forma forma_atual;
+int screen_x, screen_y;
+int char_x, char_y;
+
 
 const Forma VetorDeFormas[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},                           //formato S     
+	{
+		(char *[])     {(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}   , 3},   
+	
+	                        //formato S     
 	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},                           //formato Z   
 	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},                           //formato T   
 	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},                           //formato L   
@@ -34,29 +41,39 @@ struct timeval before_now, now;
 
 
 void IniciarJogo() {
-	int direcao;
+	if(!video_open()){
+		return -1;
+	}
 
+	video_clear();
+	video_read (&screen_x, &screen_y, &char_x, &char_y);
+	video_box(31,31, 61, 61, video_WHITE);
+	video_show();
+
+	int direcao;
+	char c;
+	int x1, y1, x2, y2;
 	pontuacao = 0;
-    srand(time(0));
-    initscr();
+	srand(time(0));
 	gettimeofday(&before_now, NULL);
-	timeout(1);
 
 	GerarNovaFormaAleatoriamente();
     ExibirTabela();
 
 	while(jogoEstaExecutando){
-		if ((direcao = getch()) != ERR) {
+		// Captura de input (a, d, s para esquerda, direita e baixo) se houver
+		if ((direcao = getchar()) != -1) {
 		  MovimentarForma(direcao);
 		}
+		
+		// Verifica se o tempo passou para fazer a peça cair automaticamente
 		gettimeofday(&now, NULL);
-		if (temQueAtualizar()) { //diferença de tempo dada em precisão de milisegundos
+		if (temQueAtualizar()) { // diferença de tempo dada em precisão de milisegundos
 			MovimentarForma('s');
 			gettimeofday(&before_now, NULL);
 		}
 	}
 	ApagarForma(forma_atual);
-	endwin();
 	int i, j;
 	for(i = 0; i < LINHAS ;i++){
 		for(j = 0; j < COLUNAS ; j++){
@@ -66,6 +83,8 @@ void IniciarJogo() {
 	}
 	printf("\nGame over!\n");
 	printf("\nPontuacao: %d\n", pontuacao);
+
+	return 0;
 }
 
 Forma CopiarForma(Forma forma){
@@ -86,6 +105,11 @@ Forma CopiarForma(Forma forma){
 void MovimentarForma(int direcao){
 	Forma temp = CopiarForma(forma_atual);
 	switch(direcao){
+		case 'w':
+			RotacionarForma(temp); // rotate clockwise
+			if(ChecarPosicao(temp))
+				RotacionarForma(forma_atual);
+			break;
 		case 's':
 			temp.linha++;  //move pra baixo
 			if(ChecarPosicao(temp))
@@ -120,17 +144,17 @@ void ExibirTabela(){
 				Buffer[forma_atual.linha+i][forma_atual.coluna+j] = forma_atual.array[i][j];
 		}
 	}
-	clear();
+	//clear();
 	for(i=0; i<COLUNAS-9; i++)
-		printw(" ");
-	printw("Tetris\n");
+		printf(" ");
+	printf("Tetris\n");
 	for(i = 0; i < LINHAS ;i++){
 		for(j = 0; j < COLUNAS ; j++){
-			printw("%c ", (Matriz[i][j] + Buffer[i][j])? '#': '.');
+			printf("%c ", (Matriz[i][j] + Buffer[i][j])? '#': '.');
 		}
-		printw("\n");
+		printf("\n");
 	}
-	printw("\nPontuacao: %d\n", pontuacao);
+	printf("\nPontuacao: %d\n", pontuacao);
 }
 
 void RemoverLinhaEAtualizarPontuacao(){
@@ -215,3 +239,17 @@ void ApagarForma(Forma forma){
 int temQueAtualizar(){
 	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > temporizador;
 }
+
+void RotacionarForma(Forma forma){ 
+	Forma temp = CopiarForma(forma);
+	int i, j, k, width;
+	width = forma.largura;
+	for(i = 0; i < width ; i++){
+		for(j = 0, k = width-1; j < width ; j++, k--){
+				forma.array[i][j] = temp.array[k][i];
+		}
+	}
+	ApagarForma(temp);
+}
+
+

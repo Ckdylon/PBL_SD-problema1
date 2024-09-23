@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I./src/tetris -I./src/acelerometro -lncurses  
+CFLAGS = -I./src/tetris -I./src/acelerometro 
 SRC = main.c src/tetris/tetris.c src/acelerometro/acelerometro.c  
 OBJ = main.o tetris.o acelerometro.o
 

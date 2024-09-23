@@ -14,3 +14,4 @@ int ChecarPosicao(Forma forma);
 void ApagarForma(Forma forma);
 int temQueAtualizar();
 void IniciarJogo();
+void RotacionarForma(Forma forma);
