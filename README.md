@@ -1,17 +1,19 @@
-# Tetris 
+# 🟦🟩🟥🟨 Tetris 🟩🟨🟥🟦
 Um clássico atemporal que cativa gerações de jogadores.
 
-## Como executar o jogo
-
-# Instalar a biblioteca ncurses utilizada para controlar o tempo no jogo
-```
-$ sudo apt-get install libncurses5-dev libncursesw5-dev
-```
-
-# Rodar o game
+# Compilar e executar o game
+Para rodar o game basta fazer o download do repositório e com um terminal aberto na pasta "app" executar o seguinte comando:
 ```
 $ make
 ```
+<h3> ⚠ Atenção! O sistema também depende da instalação prévia da biblioteca IntelFPGAUP!</h31>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ## Referências:
 NAJIBGHADRI. Disponivel em: <https://github.com/najibghadri/Tetris200lines/tree/master>. Acesso em: 03/09/2024
