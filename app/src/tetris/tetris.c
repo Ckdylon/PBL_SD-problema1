@@ -2,129 +2,13 @@
 #include <time.h>
 #include <sys/time.h>
 #include "tetris.h"
-#include <time.h>
+
 #include <stdio.h>
 #include "../../address_map_arm.h"
 
-#define LINHAS 20
-#define COLUNAS 15
-#define TRUE 1
-#define FALSE 0
-
-/* Peça que cai */
-Forma forma_atual;
-
-/* Definição das peças */
-const Forma VetorDeFormas[7] = {
-	// Formato S
-	{
-		(char *[]){
-			(char[]){0, 1, 1},
-			(char[]){1, 1, 0},
-			(char[]){0, 0, 0}},
-		3},
-
-	// Formato Z
-	{
-		(char *[]){
-			(char[]){1, 1, 0},
-			(char[]){0, 1, 1},
-			(char[]){0, 0, 0}},
-		3},
-
-	// Formato T
-	{
-		(char *[]){
-			(char[]){0, 1, 0},
-			(char[]){1, 1, 1},
-			(char[]){0, 0, 0}},
-		3},
-
-	// Formato L
-	{
-		(char *[]){
-			(char[]){0, 0, 1},
-			(char[]){1, 1, 1},
-			(char[]){0, 0, 0}},
-		3},
-
-	// Formato L invertido
-	{
-		(char *[]){
-			(char[]){1, 0, 0},
-			(char[]){1, 1, 1},
-			(char[]){0, 0, 0}},
-		3},
-
-	// Formato quadrado
-	{
-		(char *[]){
-			(char[]){1, 1},
-			(char[]){1, 1}},
-		2},
-
-	// Formato vareta
-	{
-		(char *[]){
-			(char[]){0, 0, 0, 0},
-			(char[]){1, 1, 1, 1},
-			(char[]){0, 0, 0, 0},
-			(char[]){0, 0, 0, 0}},
-		4}};
-
-/* "Motor" do game */
 char Matriz[LINHAS][COLUNAS] = {0};
-
-int pontuacao = 0;
-char jogoEstaExecutando = TRUE;
 suseconds_t temporizador = 400000; // é só diminuir esse valor pro jogo executar mais rápido
-int decrementar = 1000;
 struct timeval before_now, now;
-
-/*
- * Loop principal do game
- **/
-void IniciarJogo()
-{
-	int direcao;
-	char c;
-	int x1, y1, x2, y2;
-	pontuacao = 0;
-	srand(time(0));
-	gettimeofday(&before_now, NULL);
-
-	GerarNovaFormaAleatoriamente();
-	ExibirTabela();
-
-	while (jogoEstaExecutando)
-	{
-		// Captura de input (a, d, s para esquerda, direita e baixo) se houver
-		if ((direcao = getchar()) != -1)
-		{
-			MovimentarForma(direcao);
-		}
-
-		// Verifica se o tempo passou para fazer a peça cair automaticamente
-		gettimeofday(&now, NULL);
-		if (temQueAtualizar())
-		{ // diferença de tempo dada em precisão de milisegundos
-			MovimentarForma('s');
-			gettimeofday(&before_now, NULL);
-		}
-	}
-	ApagarForma(forma_atual);
-	int i, j;
-	for (i = 0; i < LINHAS; i++)
-	{
-		for (j = 0; j < COLUNAS; j++)
-		{
-			printf("%c ", Matriz[i][j] ? '#' : '.');
-		}
-		printf("\n");
-	}
-	printf("\nGame over!\n");
-	printf("\nPontuacao: %d\n", pontuacao);
-}
 
 /*
  * Função de utilidade responsável por copiar uma peça
@@ -153,7 +37,7 @@ Forma CopiarForma(Forma forma)
  * @param direcao - Esquerda, Baixo(descer mais rápido), Direita e Cima(rotação): 'a', 's', 'd' e 'w' respectivamente.
  * Aqui entra o acelerômetro.
  **/
-void MovimentarForma(int direcao)
+void MovimentarForma(int direcao, Forma forma_atual)
 {
 	Forma temp = CopiarForma(forma_atual);
 	switch (direcao)
@@ -193,29 +77,31 @@ void MovimentarForma(int direcao)
  * Função responsável por exibir no terminal a matriz do game
  **/
 void ExibirTabela()
-{
-	char Buffer[LINHAS][COLUNAS] = {0};
-	int i, j;
-	for (i = 0; i < forma_atual.largura; i++)
-	{
-		for (j = 0; j < forma_atual.largura; j++)
-		{
-			if (forma_atual.array[i][j])
-				Buffer[forma_atual.linha + i][forma_atual.coluna + j] = forma_atual.array[i][j];
-		}
-	}
-	for (i = 0; i < COLUNAS - 9; i++)
-		printf(" ");
-	printf("Tetris\n");
-	for (i = 0; i < LINHAS; i++)
-	{
-		for (j = 0; j < COLUNAS; j++)
-		{
-			printf("%c ", (Matriz[i][j] + Buffer[i][j]) ? '#' : '.');
-		}
-		printf("\n");
-	}
-	printf("\nPontuacao: %d\n", pontuacao);
+{ /*
+	 char Buffer[LINHAS][COLUNAS] = {0};
+	 int i, j;
+	 for (i = 0; i < forma_atual.largura; i++)
+	 {
+		 for (j = 0; j < forma_atual.largura; j++)
+		 {
+			 if (forma_atual.array[i][j])
+				 Buffer[forma_atual.linha + i][forma_atual.coluna + j] = forma_atual.array[i][j];
+		 }
+	 }
+	 for (i = 0; i < COLUNAS - 9; i++)
+		 printf(" ");
+	 printf("Tetris\n");
+	 for (i = 0; i < LINHAS; i++)
+	 {
+		 for (j = 0; j < COLUNAS; j++)
+		 {
+			 printf("%c ", (Matriz[i][j] + Buffer[i][j]) ? '#' : '.');
+		 }
+		 printf("\n");
+	 }
+	 printf("\nPontuacao: %d\n", pontuacao);
+
+	 */
 }
 
 /*
