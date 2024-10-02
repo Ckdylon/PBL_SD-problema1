@@ -1,7 +1,4 @@
 #include "acelerometro.h"
-#include "tetris.h"
-
-
 
 int open_physical(int fd)
 {

@@ -1,7 +1,7 @@
 CC = gcc
-CFLAGS = -I./src/tetris -I./src/acelerometro -lintelfpgaup
-SRC = main.c src/tetris/tetris.c src/acelerometro/acelerometro.c  
-OBJ = main.o tetris.o acelerometro.o
+CFLAGS = -I./src/acelerometro -lintelfpgaup
+SRC = main.c src/acelerometro/acelerometro.c  
+OBJ = main.o acelerometro.o
 
 all: tetris
 
@@ -11,8 +11,6 @@ tetris: $(OBJ)
 main.o: main.c
 	$(CC) -c main.c $(CFLAGS)
 
-tetris.o: src/tetris/tetris.c
-	$(CC) -c src/tetris/tetris.c $(CFLAGS)
 
 acelerometro.o: src/acelerometro/acelerometro.c
 	$(CC) -c src/acelerometro/acelerometro.c $(CFLAGS)
