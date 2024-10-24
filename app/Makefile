@@ -1,21 +1,5 @@
-CC = gcc
-CFLAGS = -I./src/tetris -I./src/acelerometro -lintelfpgaup
-SRC = main.c src/tetris/tetris.c src/acelerometro/acelerometro.c  
-OBJ = main.o tetris.o acelerometro.o
-
-all: tetris
-
-tetris: $(OBJ)
-	$(CC) -o tetris $(OBJ) $(CFLAGS)
-
-main.o: main.c
-	$(CC) -c main.c $(CFLAGS)
-
-tetris.o: src/tetris/tetris.c
-	$(CC) -c src/tetris/tetris.c $(CFLAGS)
-
-acelerometro.o: src/acelerometro/acelerometro.c
-	$(CC) -c src/acelerometro/acelerometro.c $(CFLAGS)
-
+all:
+		gcc -Wall main.c -o main -lintelfpgaup -lpthread -std=c99
+			sudo ./main
 clean:
-	rm -f *.o tetris
+	rm -f *.o main
