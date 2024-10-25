@@ -1,8 +1,14 @@
-all: build link
+LIBOBJS = lib.o
 
-build:
-	as -o alternativo.o alternativo.s
-link:
-	ld -o alternativo alternativo.o
+all: main
+
+%.o : %.s
+	as $< -o $@
+
+lib.a: $(LIBOBJS)
+	ar -cvq lib.a $(LIBOBJS)
+
+main: main.c lib.a
+	gcc -o main main.c lib.a
 clean:
-	rm alternativo alternativo.o
+	rm -f main lib.a $(LIBOBJS)
