@@ -1,10 +1,8 @@
 all: build link
 
 build:
-	as -o megedMain.o megedMain.s
-
+	as -o alternativo.o alternativo.s
 link:
-	ld -o megedMain megedMain.o
-
+	ld -o alternativo alternativo.o
 clean:
-	rm megedMain megedMain.o
+	rm alternativo alternativo.o
