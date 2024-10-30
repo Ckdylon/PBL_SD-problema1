@@ -3,7 +3,9 @@ Um clássico atemporal que cativa gerações de jogadores.
 
 # Equipe de desenvolvimento
 [Anesio Sousa](https://github.com/AnesioSousa)
+
 [Caick Wendel](https://github.com/Caickk)
+
 [Caike Dylon](https://github.com/Ckdylon)
 
 # Compilar e executar o game
