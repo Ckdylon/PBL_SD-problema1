@@ -1,6 +1,11 @@
 # 🟦🟩🟥🟨 Tetris 🟩🟨🟥🟦
 Um clássico atemporal que cativa gerações de jogadores.
 
+# Equipe de desenvolvimento
+[Anesio Sousa](https://github.com/AnesioSousa)
+[Caick Wendel](https://github.com/Caickk)
+[Caike Dylon](https://github.com/Ckdylon)
+
 # Compilar e executar o game
 Para rodar o game basta fazer o download do repositório e com um terminal aberto na pasta "app" executar o seguinte comando:
 ```
