@@ -1,5 +1,5 @@
-# 🟦🟩🟥🟨 Tetris 🟩🟨🟥🟦
-Um clássico atemporal que cativa gerações de jogadores.
+# 🟦🟩🟥🟨 GPU-lib 🟩🟨🟥🟦
+Biblioteca com funções gráficas para o Processador Gráfico CoLenda, que permitem facilitar a implementação de jogos digitais para a plataforma DE1-SOC.
 
 # Equipe de desenvolvimento
 [Anesio Sousa](https://github.com/AnesioSousa)
@@ -7,6 +7,9 @@ Um clássico atemporal que cativa gerações de jogadores.
 [Caick Wendel](https://github.com/Caickk)
 
 [Caike Dylon](https://github.com/Ckdylon)
+
+# Descrição do problema
+Foi implementado uma bibloioteca usando a liguagem assembly, utilizando a interface de conexão entre HPS e FPGA da DE1-SoC. O sistema é comandado pela placa DE1-SoC, sendo capaz de gerar imagem em um monitor via conexão VGA.
 
 # Compilar e executar o game
 Para rodar o game basta fazer o download do repositório e com um terminal aberto na pasta "app" executar o seguinte comando:
